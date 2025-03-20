@@ -27,6 +27,19 @@ To run the sample CQL:
 
     jupyter notebook Sample.ipynb
 
+Dev mode
+========
+
+- Clone this repo
+- Go to a new, clean directory
+- Create a new virtualenv (I did 3.12)
+- `pip install -e <dir_of_cloned_repo>`
+- `python -m cqljupyter.install  [<hostname> <port>] [--ssl] [-u user] [-p password]`
+
+_Note: I ended up with `cqlsh==6.2.0`. Presumably the cqlsh version is the reason why I needed to tweak the code._
+
+Start with `jupyter notebook`, open in browser, try a CQL kernel.
+
 Syntax
 ======
 

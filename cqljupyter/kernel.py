@@ -4,7 +4,9 @@ import sys
 import re
 from ipykernel.kernelbase import Kernel
 
-from cqlsh.cqlshlib import cqlshmain, cql3handling, authproviderhandling
+from cqlshlib import cqlshmain, cql3handling, authproviderhandling
+from cqlshlib.cqlshmain import setup_cqlruleset
+from cqlshlib import cql3handling
 
 __version__ = '2.0.0'
 
@@ -41,8 +43,9 @@ class CQLKernel(Kernel):
         self._start_cql()
 
     def _start_cql(self):
+        setup_cqlruleset(cql3handling)
         self.cqlshell = cqlshmain.Shell(self.hostname, self.port, username=self.user, ssl=self.ssl,
-                                        auth_provider=self.auth)
+                                        auth_provider=self.auth, encoding='utf-16')
         self.cqlshell.use_paging = False
         self.outStringWriter = io.StringIO()
         self.cqlshell.query_out = self.outStringWriter
@@ -93,9 +96,9 @@ class CQLKernel(Kernel):
             else:
                 mime_type = 'text/plain'
 
-            stream_content = {'execution_count': self.execution_count, 'data': {mime_type: outputstr}}
 
-            self.send_response(self.iopub_socket, 'execute_result', stream_content)
+            stream_content = {'name': 'stdout', 'text': outputstr}
+            self.send_response(self.iopub_socket, 'stream', stream_content)
 
         return {'status': 'ok', 'execution_count': self.execution_count,
                 'payload': [], 'user_expressions': {}}
