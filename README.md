@@ -30,7 +30,7 @@ To run the sample CQL:
 Dev mode
 ========
 
-- Clone this repo
+- Clone this repo _and check out to this branch_
 - Go to a new, clean directory
 - Create a new virtualenv (I did 3.12)
 - `pip install -e <dir_of_cloned_repo>`
